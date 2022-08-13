@@ -29,8 +29,37 @@ exports.handler = async (event) => {
               themeCodeArray.push('night');
             }
             
+            let weatherCondition;
+            
             if (weather.current.condition && weather.current.condition.text) {
-              themeCodeArray.push(weather.current.condition.text.toLowerCase().replace(/ /g, '-'));
+              weatherCondition = weather.current.condition.text.toLowerCase();
+              
+              // Possible weather conditions: https://www.weatherapi.com/docs/weather_conditions.json
+            
+              if (weatherCondition.includes('sunny')) {
+                themeCodeArray.push('sunny');
+              } else if (
+                weatherCondition.includes('snow') ||
+                weatherCondition.includes('blizzard') ||
+                weatherCondition.includes('ice')
+              ) {
+                themeCodeArray.push('snow');
+              } else if (
+                weatherCondition.includes('rain') ||
+                weatherCondition.includes('sleet') ||
+                weatherCondition.includes('drizzle') ||
+                weatherCondition.includes('thunder') ||
+                weatherCondition.includes('sleet')
+              ) {
+                themeCodeArray.push('rain');
+              } else if (
+                weatherCondition.includes('cloudy') ||
+                weatherCondition.includes('overcast') ||
+                weatherCondition.includes('mist') ||
+                weatherCondition.includes('fog')
+              ) {
+                themeCodeArray.push('cloudy');
+              }
             }
             
             let themeCodeString = themeCodeArray.join('-');
